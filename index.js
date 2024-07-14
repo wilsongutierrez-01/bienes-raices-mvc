@@ -3,14 +3,18 @@ import userRoutes from './routes/userRoutes.js'
 import db from './config/db.js'
 
 //create express app
-const app = express();
-//connect to database
+const app = express()
 
+//Enable req.body
+app.use(express.urlencoded({ extended: true }))
+
+//connect to database
 try{
-  await db.authenticate();
-  console.log('Connection has been established successfully.');
+  await db.authenticate()
+  db.sync()
+  console.log('Connection has been established successfully.')
 }catch(error){
-  console.error('Unable to connect to the database:', error);
+  console.error('Unable to connect to the database:', error)
 }
 
 // enable pug
@@ -27,5 +31,5 @@ app.use('/auth', userRoutes)
 const port = 3000;
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Server is running on port ${port}`)
 })
