@@ -1,4 +1,28 @@
 extends ../layout/index
 block content
-  div.py-10
+  div(class="py-10")
+    h1(class="text-4xl my-10 font-extrabold text-center") Real
+      span(class="font-normal") Estate
     h1(class="text-center text-2xl font-extrabold")= page
+
+    div(class="mt-8 mx-auto max-w-md")
+      div(class="bg-white py-8 px-8 shadow")
+        form(class="space-y-5")
+          div
+            label(class="block text-sm uppercase text-gray-500 mb-2 font-bold" for="name") Name
+            input(id="name" class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 " placeholder="First Name" type="text" name="name")
+          div
+            label(class="block text-sm uppercase text-gray-500 mb-2 font-bold" for="email") Email
+            input(id="email" class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 " placeholder="Your email" type="email" name="email")
+          div
+            label(class="block text-sm uppercase text-gray-500 mb-2 font-bold" for="password") Password
+            input(id="password" class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 " placeholder="Your password" type="password" name="password")
+          div
+            label(class="block text-sm uppercase text-gray-500 mb-2 font-bold" for="repeat_password") Repeat your password
+            input(id="repeat_password" class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 " placeholder="Repeat your password" type="password" name="repeat_password")
+
+          div(class="flex items-center justify-between") 
+            a(href="/auth/login" class="text-sm text-indigo-600 hover:text-indigo-700") Sign in
+            a(href="/auth/recover-password" class="text-sm text-indigo-600 hover:text-indigo-700") Forgot your password?
+
+          input(class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer" type="submit" value="Sign up")
