@@ -15,10 +15,10 @@ block content
         form(class="space-y-5" method="POST" action="/auth/singup" noValidate)
           div
             label(class="block text-sm uppercase text-gray-500 mb-2 font-bold" for="name") Name
-            input(id="name" class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 " placeholder="First Name" type="text" name="name")
+            input(id="name" class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 " placeholder="First Name" type="text" name="name" value= user ? user.name : "")
           div
             label(class="block text-sm uppercase text-gray-500 mb-2 font-bold" for="email") Email
-            input(id="email" class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 " placeholder="Your email" type="email" name="email")
+            input(id="email" class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 " placeholder="Your email" type="email" name="email" value= user ? user.email : "")
           div
             label(class="block text-sm uppercase text-gray-500 mb-2 font-bold" for="password") Password
             input(id="password" class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 " placeholder="Your password" type="password" name="password")
