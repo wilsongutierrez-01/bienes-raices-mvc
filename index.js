@@ -1,4 +1,6 @@
 import express from 'express';
+import csurf from 'csurf';
+import cookieParser from 'cookie-parser';
 import userRoutes from './routes/userRoutes.js'
 import db from './config/db.js'
 
@@ -7,6 +9,10 @@ const app = express()
 
 //Enable req.body
 app.use(express.urlencoded({ extended: true }))
+//Enable cookies
+app.use(cookieParser())
+//Enable CSRF protection
+app.use(csurf({ cookie: true }))
 
 //connect to database
 try{
