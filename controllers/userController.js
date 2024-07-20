@@ -1,4 +1,5 @@
 import { check,validationResult } from 'express-validator'
+import bcrypt from 'bcrypt'
 import User from '../models/User.js'
 import {generateId } from '../helpers/tokens.js'
 import { emailRegister, emailRecoverPassword } from '../helpers/email.js'
@@ -228,30 +229,16 @@ const newPassword = async (req, res) => {
   const { password } = req.body
   const user = await User.findOne({where: {token}})
 
+  const salt = await bcrypt.genSalt(10)
+  user.password = await bcrypt.hash(password, salt)
   user.token = null
-  user.password = password
-
-  try {
-    await user.update({
-      token: null,
-      password
-    })
-
-    res.render('auth/confirmAccount', {
-      page: 'Reset password',
-      message: 'Your password has been reset, now you can sign in',
-    })
-    return
-
-  }catch(error){
-    res.render('auth/confirmAccount', {
-      page: 'Reset password',
-      message: 'We can not reset your password, please try again',
-      error: true
-    })
-    return
-  }
   
+  await user.save()
+
+  res.render('auth/confirmAccount', {
+    page: 'Password reset',
+    message: 'Your password has been reset, now you can sign in',
+  })
 }
 export {
   loginForm,
