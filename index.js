@@ -2,6 +2,7 @@ import express from 'express';
 import csurf from 'csurf';
 import cookieParser from 'cookie-parser';
 import userRoutes from './routes/userRoutes.js'
+import propertiesRoutes from './routes/propertiesRoutes.js'
 import db from './config/db.js'
 
 //create express app
@@ -31,6 +32,7 @@ app.set('views', './views')
 app.use(express.static('public'))
 // Routting 
 app.use('/auth', userRoutes)
+app.use('/', propertiesRoutes)
 
 
 //define port and start server

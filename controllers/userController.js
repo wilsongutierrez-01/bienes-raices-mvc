@@ -1,12 +1,88 @@
 import { check,validationResult } from 'express-validator'
 import bcrypt from 'bcrypt'
 import User from '../models/User.js'
-import {generateId } from '../helpers/tokens.js'
+import { generateJWT, generateId } from '../helpers/tokens.js'
 import { emailRegister, emailRecoverPassword } from '../helpers/email.js'
+
 const loginForm = (req, res) => {
   res.render('auth/login', {
     page: 'Sign in',
+    csrfToken: req.csrfToken()
   });
+}
+
+const signin = async (req, res) => {
+  await check('email')
+    .isEmail()
+    .withMessage('Please insert a valid email')
+    .run(req)
+  await check('password')
+    .notEmpty()
+    .withMessage('Please insert your password')
+    .run(req)
+
+  let result = validationResult(req)
+
+  if(!result.isEmpty()){
+    res.render('auth/login', {
+      page: 'Sign in',
+      csrfToken: req.csrfToken(),
+      errors: result.array(),
+      user: {
+        email: req.body.email
+      }
+    })
+    return
+  }
+
+  const { email, password } = req.body
+  const user = await User.findOne({where: {email}})
+  //Check if the user exists
+  if(!user){
+    res.render('auth/login', {
+      page: 'Sign in',
+      csrfToken: req.csrfToken(),
+      errors: [{msg: 'The email does not exist'}],
+      user: {
+        email: req.body.email
+      }
+    })
+    return
+  }
+  //Check is user is confirmed
+  if(!user.confirmed){
+    res.render('auth/login', {
+      page: 'Sign in',
+      csrfToken: req.csrfToken(),
+      errors: [{msg: 'The account is not confirmed'}],
+      user: {
+        email: req.body.email
+      }
+    })
+    return
+  }
+  //Check password
+  if(!user.checkPassword(password)){
+    res.render('auth/login', {
+      page: 'Sign in',
+      csrfToken: req.csrfToken(),
+      errors: [{msg: 'The password is incorrect'}],
+      user: {
+        email: req.body.email
+      }
+    })
+    return
+  }
+  // Authenticate user
+  const token = generateJWT({id: user.id, name: user.name})
+
+
+  //Add token into a cookie
+  return res.cookie('_token', token , {
+    httpOnly: true,
+    secure: true,
+    sameSite: true
+  }).redirect('/my-properties')
 }
 
 //Signup methods
@@ -17,6 +93,8 @@ const signupForm = (req, res) => {
     csrfToken: req.csrfToken()
   });
 }
+
+
 
 const signup = async (req, res) => {
   //Validate user 
@@ -242,6 +320,7 @@ const newPassword = async (req, res) => {
 }
 export {
   loginForm,
+  signin,
   signupForm,
   signup,
   confirmAccount,  
