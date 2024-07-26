@@ -5,6 +5,14 @@ const admin = (req, res) => {
   })
 }
 
+//Form to create property
+const create = (req, res) => {
+  res.render('properties/create',{
+    page: 'Create Property',
+    header: true
+  })
+}
 export {
-  admin
+  admin,
+  create
 }
