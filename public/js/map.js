@@ -16,7 +16,7 @@
   \***********************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\nalert('this is map!')\n\n//# sourceURL=webpack://bienes-raices-mvc/./src/js/map.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n(function() {\n\n  const lat = 13.3424296;\n  const lng = -88.4408013;\n  const map = L.map('map').setView([lat, lng ], 16);\n  \n\n  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {\n      attribution: '&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors'\n  }).addTo(map);\n\n\n})()\n\n//# sourceURL=webpack://bienes-raices-mvc/./src/js/map.js?");
 
 /***/ })
 
