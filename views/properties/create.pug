@@ -5,14 +5,14 @@ block styles
 
 block content
  div(class="py-10")
-    h1(class="text-4xl my-10 font-extrabold text-center") Real
+    h3(class="text-4xl my-10 font-extrabold text-center") Real
       span(class="font-normal") Estate
     h2(class="text-center text-2xl font-extrabold")= page
 
     div(class="bg-white shadow py-8 px-4 rounded mx-auto mx-max-4xl my-10 md:px-10")
       form(class="space-y-8")
         div(class="space-y-5")
-          h1(class="text-lg leading-6 font-medium text-gray-900") General Information 
+          h3(class="text-lg leading-6 font-medium text-gray-900") General Information 
           p(class="text-gray-600") Add the information about your property
 
           div
@@ -54,7 +54,15 @@ block content
                 - let bathroom = 1;
                   while bathroom < 5
                     option(value=bathroom) #{bathroom++}
-        div(id="map" class="h-96")
+          div(class="border-gray-200 border-t py-5 space-y-5")
+            h3(class="text-lg leading-6 font-medium text-gray-900") Ubication
+            p(class="text-gray-600") Pick the location of your property
+            div(id="map" class="h-96")
+            div
+              p(id="streetLabel")
+            input(class="hidden" name="street" id="street")
+            input(class="hidden" name="lat" id="lat")
+            input(class="hidden" name="lng" id="lng")
 
 block scripts
   script(src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js")
