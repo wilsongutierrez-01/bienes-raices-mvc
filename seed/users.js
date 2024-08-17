@@ -6,6 +6,12 @@ const users = [
     email: 'guti@mail.com', 
     password: bcrypt.hashSync('123456', 10),
     confirmed: 1
+  },
+  {
+    name:'jovel',
+    email: 'jovel@mail.com',
+    password: bcrypt.hashSync('123456', 10),
+    confirmed: 1
   }
 ]
 
