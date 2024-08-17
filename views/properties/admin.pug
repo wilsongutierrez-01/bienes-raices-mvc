@@ -8,3 +8,18 @@ block content
 
     a(href="/properties/create" 
       class="rounded py-2 px-10 bg-indigo-600 hover:bg-indigo-700 text-sm font-bold text-center text-white uppercase my-5 inline-block w-full sm:w-auto") Create property
+
+    //- pre= JSON.stringify(properties, null, 2)
+    if properties.length
+      div(class="bg-white shadow rounded-lg") 
+        ul(class="divide-y divide-gray-200")
+          each property in properties
+            li
+              div(class="p-6 w-full flex-col sm:flex-row sm:items-center sm:justify-between space-y-8 gap-4")
+                div(class="sm:w-1/4 md:w-1/6")
+                  img(src=`uploads/${property.image}` alt=`Image for ${property.title}` class="w-full h-32 object-cover rounded-lg")
+                div(class="sm:w-2/4 md:w-3/6 lg:w-4/6") 
+                div(class="sm:w-1/4 md:w-2/6 lg:w-1/6") 
+
+    else 
+      p(class="text-center") No properties found
