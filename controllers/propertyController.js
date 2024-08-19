@@ -4,27 +4,56 @@ import { validationResult } from 'express-validator'
 import { Category, Price, Property } from '../models/index.js'
 
 const admin = async (req, res) => {
-  const { id } = req.user
 
-  const properties = await Property.findAll({
-    where: {
-      userId: id
-    },
-    include: [
-      {
-        model: Category, 
-      },
-      {
-        model: Price
-      }
-    ]
-  })
+  const { page: currentPage } = req.query
 
-  res.render('properties/admin',{
-    page: 'My Properties',
-    properties,
-    csrfToken: req.csrfToken()
-  })
+  const regex = /^[0-9]$/
+  
+  if(!regex.test(currentPage)){
+    res.redirect('/my-properties?page=1')
+    return
+  }
+  
+  try{
+
+    //Limits and offset
+    const limit = 5
+    const offset = ((currentPage * limit) - limit)
+
+    const { id } = req.user
+
+    const [properties, total] = await Promise.all([
+      Property.findAll({
+          limit,
+          offset,
+          where: {
+            userId: id
+          },
+          include: [
+            {
+              model: Category, 
+            },
+            {
+              model: Price
+            }
+          ],
+        }),
+        Property.count({
+          where: {
+            userId: id
+          }
+        })
+    ])
+
+    res.render('properties/admin',{
+      page: 'My Properties',
+      properties,
+      csrfToken: req.csrfToken(),
+      pages: Math.ceil(total / limit),
+    })
+  }catch(error){
+    console.error(error)
+  }
 }
 
 //Form to create property
@@ -274,6 +303,37 @@ const deleteProperty = async (req, res) => {
   }
 }
 
+//Show one property
+const showProperty = async (req, res) => {
+
+  const { id } = req.params
+
+  const property = await Property.findByPk(id, {
+    include: [
+      {
+        model: Category
+      },
+      {
+        model: Price
+      }
+    ]
+  })
+
+  if(!property){
+    res.redirect('/404')
+    return
+  }
+
+
+
+
+  res.render('properties/show',{
+    page: 'Property',
+    property
+  })
+
+}
+
 export {
   admin,
   create,
@@ -282,5 +342,6 @@ export {
   saveImage,
   edit,
   saveChanges,
-  deleteProperty
+  deleteProperty,
+  showProperty
 }

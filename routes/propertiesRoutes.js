@@ -8,7 +8,8 @@ import {
   saveImage, 
   edit, 
   saveChanges,
-  deleteProperty} from '../controllers/propertyController.js'
+  deleteProperty,
+  showProperty} from '../controllers/propertyController.js'
 import protectedRoute from '../middleware/protectedRoutes.js'
 import upload from '../middleware/uploadImage.js'
 const router = express.Router()
@@ -46,5 +47,7 @@ router.post('/properties/edit/:id',
 
 router.post('/properties/delete/:id', protectedRoute, deleteProperty)
 
+//Public routes
+router.get('/property/:id', showProperty)
 
 export default router
