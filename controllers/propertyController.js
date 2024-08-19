@@ -1,7 +1,7 @@
+
+import { unlink } from 'node:fs/promises'
 import { validationResult } from 'express-validator'
-import Category from "../models/Category.js"
-import Price from "../models/Price.js"
-import Property from "../models/Property.js"
+import { Category, Price, Property } from '../models/index.js'
 
 const admin = async (req, res) => {
   const { id } = req.user
@@ -9,12 +9,21 @@ const admin = async (req, res) => {
   const properties = await Property.findAll({
     where: {
       userId: id
-    }
+    },
+    include: [
+      {
+        model: Category, 
+      },
+      {
+        model: Price
+      }
+    ]
   })
 
   res.render('properties/admin',{
     page: 'My Properties',
-    properties
+    properties,
+    csrfToken: req.csrfToken()
   })
 }
 
@@ -149,10 +158,129 @@ const saveImage = async (req, res, next) => {
 
 }
 
+const edit = async (req, res) => {
+  const [ categories, prices ] = await Promise.all([
+    Category.findAll(),
+    Price.findAll()
+  ])
+
+  const { id } = req.params
+  const { id: userId } = req.user
+
+  const property = await Property.findByPk(id)
+
+  if(!property){
+    res.redirect('/my-properties')
+    return
+  }
+
+  if( property.userId.toString() !== userId.toString()){
+    res.redirect('/my-properties')
+    return
+  }
+
+
+  res.render('properties/edit',{
+    page: 'Edit Property',
+    csrfToken: req.csrfToken(),
+    categories,
+    prices,
+    data: property  
+  })
+}
+
+const saveChanges = async (req, res) => {
+
+  //Validate data
+  let result = validationResult(req)
+
+  if (!result.isEmpty()) {
+    const [ categories, prices ] = await Promise.all([
+      Category.findAll(),
+      Price.findAll()
+    ])
+    res.render('properties/edit',{
+      page: `Edit Property`,
+      csrfToken: req.csrfToken(),
+      categories,
+      prices,
+      errors: result.array(),
+      data: req.body
+    })
+    return
+  }
+  const { id } = req.params
+  const { id: userId } = req.user
+
+  const property = await Property.findByPk(id)
+
+  if(!property){
+    res.redirect('/my-properties')
+    return
+  }
+
+  if( property.userId.toString() !== userId.toString()){
+    res.redirect('/my-properties')
+    return
+  }
+
+  //Save property
+  const { title, description, category: categoryId, price: priceId, bedrooms, parking, bathrooms, street, lat, lng } = req.body
+  
+  try{
+    property.set({
+      title,
+      description,
+      categoryId,
+      priceId,
+      bedrooms,
+      parking,
+      bathrooms,
+      street,
+      lat,
+      lng
+    })
+    await property.save()
+    res.redirect('/my-properties')
+  }catch(error){
+    console.error(error)
+    
+  }
+}
+
+const deleteProperty = async (req, res) => {
+  const { id } = req.params
+  const { id: userId } = req.user
+
+  const property = await Property.findByPk(id)
+
+  if(!property){
+    res.redirect('/my-properties')
+    return
+  }
+
+  if( property.userId.toString() !== userId.toString()){
+    res.redirect('/my-properties')
+    return
+  }
+
+  await unlink(`public/uploads/${property.image}`)
+
+  try{
+    await property.destroy()
+    res.redirect('/my-properties')
+  }catch(error){
+    console.error(error)
+  }
+}
+
 export {
   admin,
   create,
   save,
   addImage,
-  saveImage
+  saveImage,
+  edit,
+  saveChanges,
+  deleteProperty
 }

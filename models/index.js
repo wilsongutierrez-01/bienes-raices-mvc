@@ -3,9 +3,9 @@ import Price from './Price.js'
 import Category from './Category.js'
 import User from './User.js'
 
-Price.hasOne(Property)
-Category.hasOne(Property)
-User.hasOne(Property)
+Property.belongsTo(Category)
+Property.belongsTo(Price)
+Property.belongsTo(User)
 
 export {
   Property,
