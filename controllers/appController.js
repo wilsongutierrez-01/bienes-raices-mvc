@@ -1,5 +1,7 @@
 const home = (req, res) => {
-  res.send('Home page')
+  res.render('home', { 
+    page: 'Home' 
+  })
 }
 
 const category = (req, res) => {

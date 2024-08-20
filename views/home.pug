@@ -1,0 +1,15 @@
+extends ./layout/app
+
+block styles 
+  link(rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css")
+  //- pre= JSON.stringify(property, null, 2)
+  
+block content
+  div(class="py-5")
+    h1(class="text-center text-4xl font-extrabold") Map location
+
+    div(id="mapHome" class="h-[500px] mt-5")
+
+block scripts
+  script(src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js")
+  script(src="/js/homeMap.js")
