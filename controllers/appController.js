@@ -1,6 +1,15 @@
-const home = (req, res) => {
+import { Category, Price, Property } from '../models/index.js'
+
+const home = async (req, res) => {
+
+  const [ categories, prices ] = await Promise.all([
+    Category.findAll({raw: true}),
+    Price.findAll({raw: true}),
+  ])
   res.render('home', { 
-    page: 'Home' 
+    page: 'Home',
+    categories,
+    prices
   })
 }
 

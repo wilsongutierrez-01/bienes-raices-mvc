@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import userRoutes from './routes/userRoutes.js'
 import propertiesRoutes from './routes/propertiesRoutes.js'
 import appRoutes from './routes/appRoutes.js'
+import apiRoutes from './routes/apiRoutes.js'
 
 import db from './config/db.js'
 
@@ -36,6 +37,8 @@ app.use(express.static('public'))
 app.use('/auth', userRoutes)
 app.use('/', propertiesRoutes)
 app.use('/', appRoutes)
+
+app.use('/api', apiRoutes)
 
 
 //define port and start server
