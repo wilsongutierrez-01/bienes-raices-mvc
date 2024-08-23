@@ -27,6 +27,11 @@ block content
 
     div(id="mapHome" class="h-[500px] mt-5")
 
+    section(class="py-5")
+      h2(class="text-center text-4xl font-extrabold pt-10") Find a new House
+
+      pre= JSON.stringify(houses, null, 2)
+
 block scripts
   script(src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js")
   script(src="/js/homeMap.js")
