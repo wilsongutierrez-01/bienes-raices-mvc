@@ -13,6 +13,6 @@ router.get('/category/:id', category)
 router.use('/404',notFound)
 
 //Search
-router.get('/search', search)
+router.post('/search', search)
 
 export default router
