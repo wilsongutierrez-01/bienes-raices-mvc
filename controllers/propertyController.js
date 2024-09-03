@@ -2,6 +2,7 @@
 import { unlink } from 'node:fs/promises'
 import { validationResult } from 'express-validator'
 import { Category, Price, Property } from '../models/index.js'
+import { isSeller } from '../helpers/index.js'
 
 const admin = async (req, res) => {
 
@@ -328,12 +329,12 @@ const showProperty = async (req, res) => {
     return
   }
 
-
-
-
   res.render('properties/show',{
     page: 'Property',
-    property
+    property,
+    csrfToken: req.csrfToken(),
+    user: req.user,
+    isSeller: isSeller(req.user?.id, property.userId)
   })
 
 }
