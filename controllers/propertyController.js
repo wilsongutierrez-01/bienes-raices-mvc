@@ -1,8 +1,8 @@
 
 import { unlink } from 'node:fs/promises'
 import { validationResult } from 'express-validator'
-import { Category, Price, Property } from '../models/index.js'
-import { isSeller } from '../helpers/index.js'
+import { Category, Price, Property, Message, User } from '../models/index.js'
+import { isSeller, formatDate } from '../helpers/index.js'
 
 const admin = async (req, res) => {
 
@@ -36,7 +36,10 @@ const admin = async (req, res) => {
             },
             {
               model: Price
-            }
+            },
+            {
+              model: Message
+            },
           ],
         }),
         Property.count({
@@ -339,6 +342,99 @@ const showProperty = async (req, res) => {
 
 }
 
+const sendMessage = async (req, res) => {
+
+  const { id } = req.params
+
+  const property = await Property.findByPk(id, {
+    include: [
+      {
+        model: Category
+      },
+      {
+        model: Price
+      }
+    ]
+  })
+
+  if(!property){
+    res.redirect('/404')
+    return
+  }
+
+  //Render errors
+
+  let result = validationResult(req)
+
+  if (!result.isEmpty()) {
+   return res.render('properties/show',{
+      page: 'Property',
+      property,
+      csrfToken: req.csrfToken(),
+      user: req.user,
+      isSeller: isSeller(req.user?.id, property.userId),
+      errors: result.array(),
+    })
+  }
+
+  const { message } = req.body
+  const { id: userId } = req.user
+  const { id: propertyId } = req.params
+
+  await Message.create({
+    message,
+    userId,
+    propertyId
+  })
+
+  res.render('properties/show',{
+    page: 'Property',
+    property,
+    csrfToken: req.csrfToken(),
+    user: req.user,
+    isSeller: isSeller(req.user?.id, property.userId),
+    success: true
+  })
+
+}
+
+//Reaad messages
+
+const seeMessages = async (req, res) => {
+  const { id } = req.params
+  const { id: userId } = req.user
+
+  const property = await Property.findByPk(id, {
+    include: [
+      {
+        model: Message, 
+        include: [
+          {
+            model: User.scope('withToken')
+          }
+        ]
+      }
+    ]
+  })
+
+  if(!property){
+    res.redirect('/my-properties')
+    return
+  }
+
+  if( property.userId.toString() !== userId.toString()){
+    res.redirect('/my-properties')
+    return
+  }
+  res.render('properties/messages',{
+    page: 'Messages',
+    csrfToken: req.csrfToken(),
+    user: req.user,
+    messages: property.messages,
+    formatDate
+  })
+}
+
 export {
   admin,
   create,
@@ -348,5 +444,7 @@ export {
   edit,
   saveChanges,
   deleteProperty,
-  showProperty
+  showProperty, 
+  sendMessage,
+  seeMessages
 }

@@ -9,7 +9,9 @@ import {
   edit, 
   saveChanges,
   deleteProperty,
-  showProperty} from '../controllers/propertyController.js'
+  showProperty, 
+  sendMessage,
+  seeMessages} from '../controllers/propertyController.js'
 import protectedRoute from '../middleware/protectedRoutes.js'
 import upload from '../middleware/uploadImage.js'
 import userIdentificator from '../middleware/userIdentificator.js'
@@ -50,5 +52,14 @@ router.post('/properties/delete/:id', protectedRoute, deleteProperty)
 
 //Public routes
 router.get('/property/:id', userIdentificator, showProperty)
+
+//save messages
+router.post('/property/:id', 
+  userIdentificator, 
+  body('message').isLength({ min: 10 }).withMessage('Message must be at least 10 characters long'),
+  sendMessage)
+
+//see messages
+router.get('/messages/:id', protectedRoute, seeMessages)
 
 export default router
