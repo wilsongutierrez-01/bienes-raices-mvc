@@ -311,6 +311,32 @@ const deleteProperty = async (req, res) => {
   }
 }
 
+//Change property status
+const changeStatus = async (req, res) => {
+  const { id } = req.params
+  const { id: userId } = req.user
+
+  const property = await Property.findByPk(id)
+
+  if(!property){
+    res.redirect('/my-properties')
+    return
+  }
+
+  if( property.userId.toString() !== userId.toString()){
+    res.redirect('/my-properties')
+    return
+  }
+
+  property.published = !property.published
+  
+  await property.save()
+
+  res.json({
+    result: 'ok',
+  })
+}
+
 //Show one property
 const showProperty = async (req, res) => {
 
@@ -327,7 +353,7 @@ const showProperty = async (req, res) => {
     ]
   })
 
-  if(!property){
+  if(!property || !property.published){
     res.redirect('/404')
     return
   }
@@ -444,6 +470,7 @@ export {
   edit,
   saveChanges,
   deleteProperty,
+  changeStatus,
   showProperty, 
   sendMessage,
   seeMessages

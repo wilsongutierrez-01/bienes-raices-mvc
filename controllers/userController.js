@@ -11,6 +11,10 @@ const loginForm = (req, res) => {
   });
 }
 
+const logout = (req, res) => {
+  res.clearCookie('_token').status(200).redirect('/auth/login')
+}
+
 const signin = async (req, res) => {
   await check('email')
     .isEmail()
@@ -320,6 +324,7 @@ const newPassword = async (req, res) => {
 }
 export {
   loginForm,
+  logout,
   signin,
   signupForm,
   signup,

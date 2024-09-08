@@ -9,6 +9,7 @@ import {
   edit, 
   saveChanges,
   deleteProperty,
+  changeStatus,
   showProperty, 
   sendMessage,
   seeMessages} from '../controllers/propertyController.js'
@@ -49,6 +50,8 @@ router.post('/properties/edit/:id',
 )
 
 router.post('/properties/delete/:id', protectedRoute, deleteProperty)
+
+router.put('/properties/:id', protectedRoute, changeStatus)
 
 //Public routes
 router.get('/property/:id', userIdentificator, showProperty)

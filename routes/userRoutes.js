@@ -1,6 +1,7 @@
 import express from 'express'
 import { 
   loginForm, 
+  logout,
   signin,
   signupForm, 
   signup,
@@ -15,6 +16,8 @@ const router = express.Router()
 
 router.get('/login', loginForm)
 router.post('/login', signin)
+
+router.post('/logout', logout)
 
 router.get('/singup', signupForm)
 router.post('/singup', signup)
