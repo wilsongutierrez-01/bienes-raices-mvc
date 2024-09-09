@@ -5,11 +5,14 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run css\" \"npm run js\"",
-    "server": "node index.js",
+    "start": "node index.js",
+    "server": "nodemon index.js",
     "css": "postcss public/css/tailwind.css -o public/css/app.css --watch",
     "js": "webpack --watch",
     "dev": "concurrently \"npm run css\" \"npm run js\"",
+    "build:css": "postcss public/css/tailwind.css -o public/css/app.css",
+    "build:js": "webpack",
+    "build": "concurrently \"npm run build:css\" \"npm run build:js\"",
     "db:import": "node ./seed/seeder.js -i",
     "db:delete": "node ./seed/seeder.js -d"
   },
