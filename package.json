@@ -12,7 +12,7 @@
     "dev": "concurrently \"npm run css\" \"npm run js\"",
     "build:css": "postcss public/css/tailwind.css -o public/css/app.css",
     "build:js": "webpack",
-    "build": "concurrently \"npm run build:css\" \"npm run build:js\"",
+    "build": "npm install && npm run build && node node_modules/pug-cli/index.js views/ --out ./",
     "db:import": "node ./seed/seeder.js -i",
     "db:delete": "node ./seed/seeder.js -d"
   },
@@ -39,6 +39,7 @@
     "mysql2": "^3.10.2",
     "nodemailer": "^6.9.14",
     "pug": "^3.0.3",
+    "pug-cli": "^1.0.0-alpha6",
     "sequelize": "^6.37.3"
   },
   "devDependencies": {
