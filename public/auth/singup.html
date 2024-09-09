@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienes Raices | </title>
+    <link rel="stylesheet" href="/css/app.css">
+  </head>
+  <body class="min-h-screen bg-gray-50"> 
+    <main class="mx-auto container mt-10 px-2">
+      <div class="py-10">
+        <h1 class="text-4xl my-10 font-extrabold text-center">Real<span class="font-normal">Estate</span></h1>
+        <h2 class="text-center text-2xl font-extrabold"></h2>
+        <div class="mt-8 mx-auto max-w-md">
+          <div class="bg-white py-8 px-8 shadow">
+            <form class="space-y-5" method="POST" action="/auth/singup" noValidate>
+              <input type="hidden" name="_csrf">
+              <div>
+                <label class="block text-sm uppercase text-gray-500 mb-2 font-bold" for="name">Name</label>
+                <input class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 " id="name" placeholder="First Name" type="text" name="name" value="">
+              </div>
+              <div>
+                <label class="block text-sm uppercase text-gray-500 mb-2 font-bold" for="email">Email</label>
+                <input class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 " id="email" placeholder="Your email" type="email" name="email" value="">
+              </div>
+              <div>
+                <label class="block text-sm uppercase text-gray-500 mb-2 font-bold" for="password">Password</label>
+                <input class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 " id="password" placeholder="Your password" type="password" name="password">
+              </div>
+              <div>
+                <label class="block text-sm uppercase text-gray-500 mb-2 font-bold" for="repeat_password">Repeat your password</label>
+                <input class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 " id="repeat_password" placeholder="Repeat your password" type="password" name="repeat_password">
+              </div>
+              <div class="flex items-center justify-between"> <a class="text-sm text-indigo-600 hover:text-indigo-700" href="/auth/login">Sign in</a><a class="text-sm text-indigo-600 hover:text-indigo-700" href="/auth/recover-password">Forgot your password?</a></div>
+              <input class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer" type="submit" value="Sign up">
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

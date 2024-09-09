@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienes Raices | </title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css">
+    <link rel="stylesheet" href="/css/app.css">
+  </head>
+  <body class="min-h-screen bg-gray-50"> 
+    <header class="bg-indigo-600 p-4">
+      <div class="container mx-auto flex justify-between items-center"><a href="/">
+          <h1 class="text-2xl text-white font-extra-bold text-center">Real <span class="font-normal">State</span></h1></a>
+        <nav class="my-5 text-sm md:flex md:items-center md:gap-3 font-bold text-white hidden"><a href="">Sing Up</a><a href="">Sing In</a></nav>
+      </div>
+    </header>
+    <div class="bg-indigo-700 py-5 hidden lg:block">
+      <div class="container mx-auto flex justify-between">
+        <nav class="flex gap-5 items-center"><a class="text-sm font-bold uppercase text-white" href="/category/1">Home</a><a class="text-sm font-bold uppercase text-white" href="/category/2">Apartment</a><a class="text-sm font-bold uppercase text-white" href="/category/3">Condo</a><a class="text-sm font-bold uppercase text-white" href="/category/4">Townhouse</a><a class="text-sm font-bold uppercase text-white" href="/category/5">House</a><a class="text-sm font-bold uppercase text-white" href="/category/6">Land</a><a class="text-sm font-bold uppercase text-white" href="/category/7">Commercial</a></nav>
+        <form class="flex gap-3 items-center" action="/search" method="POST">
+          <input type="hidden" name="_csrf">
+          <label class="text-sm font-bold uppercase text-white" for="search">Search</label>
+          <input class="p-2 rounded-lg shadow text-sm" type="text" name="search" id="search" placeholder="searching a property...">
+          <input class="bg-indigo-800 hover:bg-indigo-400 rounded-lg text-white text-sm uppercase font-bold p-2 cursor-pointer" type="submit" value="Search">
+        </form>
+      </div>
+    </div>
+    <main class="mx-auto container mt-10 px-2">
+      <div class="py-5">
+        <h1 class="text-center text-4xl font-extrabold">Map location</h1>
+        <div class="flex flex-col md:flex-row items-center py-10 gap-4">
+          <h2 class="text-sm uppercase text-gray-800 font-bold">Filter properties:</h2>
+        </div>
+        <div class="h-[500px] mt-5" id="mapHome"></div>
+        <section class="py-5">
+          <h2 class="text-center text-4xl font-extrabold pt-10">Find a new House</h2>
+        </section>
+        <section class="py-5">
+          <h2 class="text-center text-4xl font-extrabold pt-10">Find a new Apartment</h2>
+        </section>
+      </div>
+    </main>
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+    <script src="/js/homeMap.js"></script>
+  </body>
+</html>

@@ -4,12 +4,12 @@ block content
     section(class="py-5")
       h2(class="text-center text-4xl font-extrabold pt-10")= page
 
-
-      if properties.length 
-        div(class="grid grid-flow-col-1 lg:grid-cols-3 gap-5 mt-14")
-          each property in properties
-            include ./template/card
-      else
-        div(class="text-center text-2xl font-bold text-gray-500 mt-10") No properties found
+      if properties
+        if properties.length 
+          div(class="grid grid-flow-col-1 lg:grid-cols-3 gap-5 mt-14")
+            each property in properties
+              include ./template/card
+        else
+          div(class="text-center text-2xl font-bold text-gray-500 mt-10") No properties found
 
     

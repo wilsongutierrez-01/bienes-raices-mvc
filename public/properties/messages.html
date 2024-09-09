@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienes Raices | </title>
+    <link rel="stylesheet" href="/css/app.css">
+  </head>
+  <body class="min-h-screen bg-gray-50"> 
+    <header class="bg-indigo-600 p-4">
+      <div class="container mx-auto flex justify-between items-center"><a href="/">
+          <h1 class="text-2xl text-white font-extra-bold text-center">Real <span class="font-normal">State</span></h1></a>
+        <nav class="my-5 text-sm md:flex md:items-center md:gap-3 font-bold text-white hidden"><a href="my-properties">My properties</a><a href="">Profile</a>
+          <form action="/auth/logout" method="POST">
+            <input type="hidden" name="_csrf">
+            <input class="bg-indigo-800 py-2 px-10 rounded-lg" value="Sign Out" type="submit">
+          </form>
+        </nav>
+      </div>
+    </header>
+    <main class="mx-auto container mt-10 px-2">
+      <h2 class="text-center text-2xl font-extrabold my-10"></h2><a class="rounded py-2 px-10 bg-indigo-600 hover:bg-indigo-700 text-sm font-bold text-center text-white uppercase my-5 inline-block w-full sm:w-auto" href="my-properties">Back</a>
+    </main>
+  </body>
+</html>
