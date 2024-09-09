@@ -12,7 +12,7 @@
     "dev": "concurrently \"npm run css\" \"npm run js\"",
     "build:css": "postcss public/css/tailwind.css -o public/css/app.css",
     "build:js": "webpack",
-    "build": "npm install && npm run build && node node_modules/pug-cli/index.js views/ --out ./",
+    "build": "concurrently \"npm run build:css\" \"npm run build:js\" node node_modules/pug-cli/index.js views/ --out ./",
     "db:import": "node ./seed/seeder.js -i",
     "db:delete": "node ./seed/seeder.js -d"
   },
